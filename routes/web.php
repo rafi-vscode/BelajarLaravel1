@@ -2,11 +2,10 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\MahasiswaController;
-
+use App\Http\Controllers\AnimeController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('landing');
 });
 
 Route::get('/dashboard', function () {
@@ -18,14 +17,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+// Route untuk halaman utama (landing page) Anda
+Route::get('/', [AnimeController::class, 'landing'])->name('landing');
 
-Route::get('/profil', [MahasiswaController::class, 'profil']);
-
-Route::get('/detail', [MahasiswaController::class, 'detail']);
-
-Route::get('/list', [MahasiswaController::class, 'list']);
-Route::get('/profil-tugas', [MahasiswaController::class, 'profilTugas'])->middleware(['auth']);
-Route::get('/list-tugas', [MahasiswaController::class, 'listTugas'])->middleware(['auth']);
-
-
+// Route untuk halaman daftar anime berdasarkan genre
+Route::get('/genre/{id}/{name}', [AnimeController::class, 'showByGenre'])->name('anime.genre');
 require __DIR__.'/auth.php';
