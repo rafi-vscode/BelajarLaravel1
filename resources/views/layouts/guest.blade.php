@@ -1,206 +1,182 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+  <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap" rel="stylesheet" />
+  <link href="https://use.fontawesome.com/releases/v6.5.1/css/all.css" rel="stylesheet" />
+  @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:"Poppins",sans-serif;
+      background:#07060a;
+      color:#fff;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      min-height:100vh;
+      padding:2rem;
+      text-align:center;
+    }
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-        
-        <!-- Custom Anime Dark Theme CSS -->
-        <style>
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
+    /* Background */
+    .bg-animation {
+      position: fixed; inset:0; z-index: -1;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a0a2e 50%, #0a0a0a 100%);
+      background-image: url('/images/animated-lines-bg.svg');
+    }
+    .bg-animation::before {
+      content: ''; position: absolute; width: 200%; height: 200%;
+      background: radial-gradient(circle, rgba(138, 43, 226, 0.1) 1px, transparent 1px);
+      background-size: 50px 50px;
+      animation: bgScroll 20s linear infinite;
+    }
+    @keyframes bgScroll {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(50px, 50px); }
+    }
 
-            body {
-                font-family: 'Figtree', sans-serif;
-                background: #0a0a0a;
-                color: #fff;
-                overflow-x: hidden;
-            }
+    /* Logo Title */
+    .app-logo-title {
+      font-size: 2.8rem;
+      font-weight: 800;
+      margin-bottom: 1.8rem;
+      color:#b36bff;
+      text-shadow:
+        0 0 10px #b36bff,
+        0 0 20px #b36bff,
+        0 0 40px #8a2be2,
+        0 0 80px #5a00b8;
+      animation: glowPulse 2.8s ease-in-out infinite;
+    }
+    @keyframes glowPulse {
+      0%,100% { text-shadow: 0 0 10px #b36bff,0 0 20px #b36bff,0 0 40px #8a2be2; }
+      50% { text-shadow: 0 0 20px #ff44ff,0 0 50px #cc33ff,0 0 80px #8a2be2; }
+    }
 
-            /* Animated Background */
-            .bg-animation {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                z-index: -1;
-                background: linear-gradient(135deg, #0a0a0a 0%, #1a0a2e 50%, #0a0a0a 100%);
-                    /* Memanggil file SVG sebagai gambar latar belakang */
-                background-image: url('/images/animated-lines-bg.svg');
-    
-            }
-    
-            .bg-animation::before {
-                content: '';
-                position: absolute;
-                width: 200%;
-                height: 200%;
-                background: radial-gradient(circle, rgba(138, 43, 226, 0.1) 1px, transparent 1px);
-                background-size: 50px 50px;
-                animation: bgScroll 20s linear infinite;
-            }
+    /* Box dengan border neon animasi */
+    @property --a {
+      syntax: "<angle>";
+      inherits: false;
+      initial-value: 0deg;
+    }
+    .box{
+      --w:420px;
+      width:var(--w);
+      max-width:92vw;
+      height:220px;
+      border-radius:18px;
+      position:relative;
+      transition: width .45s ease, height .45s ease;
+      z-index:1;
+      background: repeating-conic-gradient(from var(--a),
+                  #ff2770 0%, #ff2770 5%, transparent 5%, transparent 40%, #ff2770 50%);
+      animation: rotating 4s linear infinite;
+    }
+    @keyframes rotating {
+      0%   { --a: 0deg; }
+      100% { --a: 360deg; }
+    }
+    .box::before{
+      content:""; position:absolute; inset:0; border-radius:18px;
+      background: repeating-conic-gradient(from var(--a),
+                  #45f3ff 0%, #45f3ff 5%, transparent 5%, transparent 40%, #45f3ff 50%);
+      animation: rotating 4s linear infinite;
+      animation-delay: -1s;
+    }
+    .box::after{
+      content:""; position:absolute; inset:6px; border-radius:14px;
+      background: #2d2d39;
+      box-shadow: 0 10px 25px rgba(0,0,0,.7) inset;
+    }
 
-            @keyframes bgScroll {
-                0% { transform: translate(0, 0); }
-                100% { transform: translate(50px, 50px); }
-            }
+    @media (min-width:900px){
+      .box{width:420px;height:220px}
+      .box:hover{width:520px;height:520px}
+    }
 
-            .auth-container {
-                min-height: 100vh;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                padding: 1.5rem;
-                position: relative;
-            }
-
-            /* Logo Container */
-            .logo-container {
-                margin-bottom: 2rem;
-            }
-
-            .logo-container a {
-                display: inline-block;
-                transition: transform 0.3s ease;
-            }
-
-            .logo-container a:hover {
-                transform: scale(1.1);
-            }
-
-            .app-logo {
-    width: 20rem;
-    height: 5rem;
-    filter: drop-shadow(0 0 20px rgba(138, 43, 226, 0.6));
+    .login-area{ position:relative; z-index:2; width:100%; height:100%; }
+.initialMessage {
+  position: absolute;
+  inset: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: clamp(1.5rem, 5vw, 2.8rem); /* besar tapi responsif */
+  color: #fff;
+  text-shadow:
+    0 0 12px #ff00cc,
+    0 0 24px #ff00cc,
+    0 0 48px #ff00cc;
+  animation: tada 1.5s infinite;
 }
-            /* Auth Card */
-            .auth-card {
-                width: 100%;
-                max-width: 28rem;
-                padding: 2.5rem;
-                background: rgba(26, 10, 46, 0.6);
-                backdrop-filter: blur(20px);
-                border: 1px solid rgba(138, 43, 226, 0.3);
-                border-radius: 20px;
-                box-shadow: 0 15px 50px rgba(138, 43, 226, 0.3);
-                position: relative;
-                overflow: hidden;
-            }
 
-            .auth-card::before {
-                content: '';
-                position: absolute;
-                top: -50%;
-                left: -50%;
-                width: 200%;
-                height: 200%;
-                background: radial-gradient(circle, rgba(138, 43, 226, 0.1) 0%, transparent 70%);
-                animation: rotate 10s linear infinite;
-                pointer-events: none;
-            }
+/* animasi tada (mirip animate.css) */
+@keyframes tada {
+  0% { transform: scale3d(1, 1, 1); }
+  10%, 20% { transform: scale3d(.9, .9, .9) rotate(-3deg); }
+  30%, 50%, 70%, 90% { transform: scale3d(1.1, 1.1, 1.1) rotate(3deg); }
+  40%, 60%, 80% { transform: scale3d(1.1, 1.1, 1.1) rotate(-3deg); }
+  100% { transform: scale3d(1, 1, 1); }
+}
 
-            @keyframes rotate {
-                0% { transform: rotate(0deg); }
-                100% { transform: rotate(360deg); }
-            }
 
-            .auth-card-content {
-                position: relative;
-                z-index: 1;
-            }
+    .formWrap{
+      position:absolute; inset:30px;
+      display:flex; align-items:center; justify-content:center;
+      opacity:0; visibility:hidden;
+      transform: translateY(20px) scale(.98);
+      transition: all .45s ease;
+    }
+    .box:hover .formWrap{ opacity:1; visibility:visible; transform: translateY(0) scale(1); }
+    .box:hover .initialMessage{ opacity:0; }
 
-            /* Floating Particles */
-            .floating-particles {
-                position: absolute;
-                width: 100%;
-                height: 100%;
-                pointer-events: none;
-                overflow: hidden;
-            }
+    .formInner{
+      width:100%; max-width:340px;
+      background:linear-gradient(180deg,#222228,#2a2a30);
+      border-radius:10px;
+      padding:20px;
+      color:#dcdcdc;
+      box-shadow: inset 0 6px 14px rgba(0,0,0,.7);
+    }
 
-            .particle {
-                position: absolute;
-                width: 4px;
-                height: 4px;
-                background: linear-gradient(135deg, #8a2be2, #ff1493);
-                border-radius: 50%;
-                opacity: 0.6;
-                animation: float-particle 15s linear infinite;
-            }
+    .logo {
+  font-size: clamp(1.6rem, 5vw, 2.5rem); /* otomatis mengecil di layar kecil */
+}
 
-            .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
-            .particle:nth-child(2) { left: 30%; animation-delay: 2s; }
-            .particle:nth-child(3) { left: 50%; animation-delay: 4s; }
-            .particle:nth-child(4) { left: 70%; animation-delay: 6s; }
-            .particle:nth-child(5) { left: 90%; animation-delay: 8s; }
+@media (max-width:400px){
+  .box{ height:160px; } /* lebih ramping lagi untuk HP kecil */
+  .slot-placeholder{ padding:14px; font-size:.9rem; }
+}
 
-            @keyframes float-particle {
-                0% {
-                    transform: translateY(100vh) scale(0);
-                    opacity: 0;
-                }
-                10% {
-                    opacity: 0.6;
-                }
-                90% {
-                    opacity: 0.6;
-                }
-                100% {
-                    transform: translateY(-100vh) scale(1);
-                    opacity: 0;
-                }
-            }
+  </style>
+</head>
+<body>
+  <div class="bg-animation"></div>
 
-            /* Responsive Design */
-            @media (max-width: 640px) {
-                .auth-card {
-                    padding: 1.5rem;
-                }
-            }
-        </style>
-    </head>
-    <body>
-        <!-- Animated Background -->
-        <div class="bg-animation"></div>
+  <!-- Logo App -->
+  <div class="app-logo-title">AnimeVerse</div>
 
-        <!-- Floating Particles -->
-        <div class="floating-particles">
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
-            <div class="particle"></div>
+  <!-- Box -->
+  <div class="box">
+    <div class="login-area">
+      <div class="initialMessage">
+    {{ $title ?? 'Selamat Datang' }}
+      </div>
+      <div class="formWrap">
+        <div class="formInner">
+          {{ $slot }}
         </div>
-
-        <!-- Auth Container -->
-        <div class="auth-container">
-            <!-- Logo -->
-            <div class="logo-container">
-                <a href="/">
-                    <x-application-logo class="app-logo" />
-                </a>
-            </div>
-
-            <!-- Auth Card -->
-            <div class="auth-card">
-                <div class="auth-card-content">
-                    {{ $slot }}
-                </div>
-            </div>
-        </div>
-    </body>
+      </div>
+    </div>
+  </div>
+</body>
 </html>

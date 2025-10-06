@@ -12,28 +12,30 @@
     <div class="bg-animation"></div>
 
     <!-- Navbar -->
-    <nav id="navbar">
-        <div class="nav-container">
-            <div class="logo">AnimeVerse</div>
-         <ul class="nav-links">
-    <li><a href="#home">Home</a></li>
-    <li><a href="#features">Features</a></li>
-    <li><a href="#gallery">Gallery</a></li>
-    <li><a href="#contact">Contact</a></li>
+<nav id="navbar">
+    <div class="nav-container">
+        <div class="logo">AnimeVerse</div>
 
-    @guest
-        <li><a href="{{ route('login') }}" class="nav-button login-btn">Login</a></li>
-        <li><a href="{{ route('register') }}" class="nav-button register-btn">Register</a></li>
-    @endguest
+        <button class="hamburger-menu" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="line"></span>
+            <span class="line"></span>
+            <span class="line"></span>
+        </button>
 
-    @auth
-        <li><a href="{{ url('/dashboard') }}" class="nav-button dashboard-btn">Dashboard</a></li>
-    @endauth
-</ul>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#contact">Contact</a></li>
 
+            @guest
+                <li><a href="{{ route('login') }}" class="nav-button login-btn">Login</a></li>
+                <li><a href="{{ route('register') }}" class="nav-button register-btn">Register</a></li>
+            @endguest
 
-        </div>
-    </nav>
+        </ul>
+    </div>
+</nav>
 
     <!-- Hero Section -->
     <section class="hero" id="home">
@@ -151,7 +153,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 AnimeVerse. All rights reserved.</p>
+                <p>&copy; 2025 AnimeVerse. RafiCompany.</p>
             </div>
         </div>
     </footer>
@@ -177,6 +179,32 @@
                         behavior: 'smooth',
                         block: 'start'
                     });
+                }
+            });
+        });
+
+            // KODE BARU UNTUK HAMBURGER MENU
+        const hamburger = document.querySelector('.hamburger-menu');
+        const navLinks = document.querySelector('.nav-links');
+        const links = document.querySelectorAll('.nav-links li a'); // Ambil semua link
+
+        // Toggle menu saat hamburger di-klik
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('active');
+
+            // Update atribut ARIA untuk aksesibilitas
+            const isExpanded = navLinks.classList.contains('active');
+            hamburger.setAttribute('aria-expanded', isExpanded);
+        });
+
+        // Tutup menu saat salah satu link di-klik (berguna untuk Single Page)
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                if (navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                    hamburger.classList.remove('active');
+                    hamburger.setAttribute('aria-expanded', 'false');
                 }
             });
         });

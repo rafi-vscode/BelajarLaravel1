@@ -1,7 +1,7 @@
-/* Auth Forms Styling - Anime Dark Theme */
-/* Tambahkan ini ke resources/css/app.css atau buat file terpisah */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-/* Form Elements */
 .auth-card label {
     color: #e0e0e0;
     font-weight: 500;
